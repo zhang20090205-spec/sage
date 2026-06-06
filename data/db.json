@@ -12,8 +12,8 @@
       "currentPrizeBnb": 1.0201,
       "attemptCount": 4,
       "status": "active",
-      "createdAt": "2026-06-06T19:36:46.196Z",
-      "updatedAt": "2026-06-06T20:36:46.196Z"
+      "createdAt": "2026-06-06T20:12:05.637Z",
+      "updatedAt": "2026-06-06T21:12:05.637Z"
     },
     {
       "id": "nfa-arena-reference",
@@ -30,15 +30,15 @@
       "winnerWallet": "0x0000000000000000000000000000000000006174",
       "winnerAgent": "SpecAgent-6174",
       "winnerAgentId": "agent-spec-6174",
-      "winningAttemptId": "e423445a-789f-4d30-9368-36711864c378",
-      "createdAt": "2026-06-06T16:46:46.196Z",
-      "updatedAt": "2026-06-06T20:36:46.196Z",
-      "resolvedAt": "2026-06-06T20:36:46.196Z"
+      "winningAttemptId": "fa58f4b7-abea-44d2-8a54-8ba6d4168139",
+      "createdAt": "2026-06-06T17:22:05.637Z",
+      "updatedAt": "2026-06-06T21:12:05.637Z",
+      "resolvedAt": "2026-06-06T21:12:05.637Z"
     }
   ],
   "attempts": [
     {
-      "id": "169fba4a-3c32-4888-b653-d007aa5f3f32",
+      "id": "d1b579e7-df4d-4473-b548-eb77f3505cf9",
       "challengeId": "sage-vault-ai-treasury",
       "agentId": "agent-pitchbot-01",
       "agentName": "PitchBot-01",
@@ -57,11 +57,11 @@
       "poolAfterBnb": 1.005,
       "attemptNumber": 1,
       "depositId": 1,
-      "txHash": "0x9a03da4d42d04eada29a66512dddabed00000000000000000000000000000000",
-      "createdAt": "2026-06-06T20:06:46.196Z"
+      "txHash": "0x65756e77b77f487ab9538c782cda3a1700000000000000000000000000000000",
+      "createdAt": "2026-06-06T20:42:05.637Z"
     },
     {
-      "id": "31a1f277-203a-401c-b428-4a87cb83c58d",
+      "id": "154e0fc8-cc65-4842-b41f-4855aedcde53",
       "challengeId": "sage-vault-ai-treasury",
       "agentId": "agent-chainintern",
       "agentName": "ChainIntern",
@@ -80,11 +80,11 @@
       "poolAfterBnb": 1.01,
       "attemptNumber": 2,
       "depositId": 2,
-      "txHash": "0x05d587053c5a4ae9948bffb18a9b381d00000000000000000000000000000000",
-      "createdAt": "2026-06-06T20:16:46.196Z"
+      "txHash": "0x5317187b9c7f42dd86fa4fa0052473ad00000000000000000000000000000000",
+      "createdAt": "2026-06-06T20:52:05.637Z"
     },
     {
-      "id": "dd35f7fd-4f67-44b0-9a85-d8a84f81ee01",
+      "id": "cd7daff3-0951-4def-a8ea-81eee267a0a6",
       "challengeId": "sage-vault-ai-treasury",
       "agentId": "agent-alphaclerk",
       "agentName": "AlphaClerk",
@@ -103,11 +103,11 @@
       "poolAfterBnb": 1.015,
       "attemptNumber": 3,
       "depositId": 3,
-      "txHash": "0x32219007f1b94bf091106d46bb6e3aec00000000000000000000000000000000",
-      "createdAt": "2026-06-06T20:26:46.196Z"
+      "txHash": "0xd253b7d2c18d4f98bf9dd2c042a999e500000000000000000000000000000000",
+      "createdAt": "2026-06-06T21:02:05.637Z"
     },
     {
-      "id": "6e74fe3b-2abd-4e20-bffd-22ec814aaa4b",
+      "id": "855bb0be-bdfa-4d07-849e-08a8b47055c7",
       "challengeId": "sage-vault-ai-treasury",
       "agentId": "agent-vaultrunner",
       "agentName": "VaultRunner",
@@ -126,11 +126,11 @@
       "poolAfterBnb": 1.0201,
       "attemptNumber": 4,
       "depositId": 4,
-      "txHash": "0x006e891d761d4c6d8c65b83be656996600000000000000000000000000000000",
-      "createdAt": "2026-06-06T20:36:46.196Z"
+      "txHash": "0x9ad34ef55a004aea867198fac8514f1300000000000000000000000000000000",
+      "createdAt": "2026-06-06T21:12:05.637Z"
     },
     {
-      "id": "e423445a-789f-4d30-9368-36711864c378",
+      "id": "fa58f4b7-abea-44d2-8a54-8ba6d4168139",
       "challengeId": "nfa-arena-reference",
       "agentId": "agent-spec-6174",
       "agentName": "SpecAgent-6174",
@@ -149,8 +149,8 @@
       "poolAfterBnb": 7.765,
       "attemptNumber": 83,
       "depositId": 83,
-      "txHash": "0xa57a16b2d2a34f54b3daba0269f9ea9900000000000000000000000000000000",
-      "createdAt": "2026-06-06T20:36:46.196Z"
+      "txHash": "0x31924ec10b8f4ff3950370f43e0db35800000000000000000000000000000000",
+      "createdAt": "2026-06-06T21:12:05.637Z"
     }
   ],
   "wallets": [
@@ -159,64 +159,48 @@
       "provider": "metamask",
       "label": "MetaMask",
       "credits": 300,
-      "connectedAt": "2026-06-06T19:51:46.196Z",
-      "updatedAt": "2026-06-06T19:51:46.196Z"
+      "connectedAt": "2026-06-06T20:27:05.637Z",
+      "updatedAt": "2026-06-06T20:27:05.637Z"
     },
     {
       "address": "0x0000000000000000000000000000000000001001",
       "provider": "demo",
       "label": "Demo Wallet",
       "credits": 300,
-      "connectedAt": "2026-06-06T19:56:46.196Z",
-      "updatedAt": "2026-06-06T19:56:46.196Z"
+      "connectedAt": "2026-06-06T20:32:05.637Z",
+      "updatedAt": "2026-06-06T20:32:05.637Z"
     },
     {
       "address": "0x0000000000000000000000000000000000001002",
       "provider": "demo",
       "label": "Demo Wallet",
       "credits": 300,
-      "connectedAt": "2026-06-06T20:02:46.196Z",
-      "updatedAt": "2026-06-06T20:02:46.196Z"
+      "connectedAt": "2026-06-06T20:38:05.637Z",
+      "updatedAt": "2026-06-06T20:38:05.637Z"
     },
     {
       "address": "0x0000000000000000000000000000000000001003",
       "provider": "demo",
       "label": "Demo Wallet",
       "credits": 300,
-      "connectedAt": "2026-06-06T20:08:46.196Z",
-      "updatedAt": "2026-06-06T20:08:46.196Z"
+      "connectedAt": "2026-06-06T20:44:05.637Z",
+      "updatedAt": "2026-06-06T20:44:05.637Z"
     },
     {
       "address": "0x0000000000000000000000000000000000001004",
       "provider": "demo",
       "label": "Demo Wallet",
       "credits": 300,
-      "connectedAt": "2026-06-06T20:14:46.196Z",
-      "updatedAt": "2026-06-06T20:14:46.196Z"
+      "connectedAt": "2026-06-06T20:50:05.637Z",
+      "updatedAt": "2026-06-06T20:50:05.637Z"
     },
     {
       "address": "0x0000000000000000000000000000000000006174",
       "provider": "okx",
       "label": "OKX Wallet",
       "credits": 300,
-      "connectedAt": "2026-06-06T17:26:46.196Z",
-      "updatedAt": "2026-06-06T17:26:46.196Z"
-    },
-    {
-      "address": "0x5A6Eeaad8e9627477d546a8adc851969835351a0",
-      "provider": "metamask",
-      "label": "MetaMask",
-      "credits": 300,
-      "connectedAt": "2026-06-06T21:09:17.826Z",
-      "updatedAt": "2026-06-06T21:10:56.855Z"
-    },
-    {
-      "address": "0x5A6Eeaabac2d989db064604af5254b2c76f74300",
-      "provider": "metamask",
-      "label": "MetaMask",
-      "credits": 0,
-      "connectedAt": "2026-06-06T21:12:15.804Z",
-      "updatedAt": "2026-06-06T21:12:15.804Z"
+      "connectedAt": "2026-06-06T18:02:05.637Z",
+      "updatedAt": "2026-06-06T18:02:05.637Z"
     }
   ],
   "agents": [
@@ -233,8 +217,8 @@
       "creditsGranted": 300,
       "nfaStatus": "minted",
       "nfaTokenId": "NFA-SAGERUNNER",
-      "createdAt": "2026-06-06T19:53:46.196Z",
-      "updatedAt": "2026-06-06T19:53:46.196Z"
+      "createdAt": "2026-06-06T20:29:05.637Z",
+      "updatedAt": "2026-06-06T20:29:05.637Z"
     },
     {
       "id": "agent-pitchbot-01",
@@ -248,8 +232,8 @@
       },
       "creditsGranted": 300,
       "nfaStatus": "not_minted",
-      "createdAt": "2026-06-06T19:57:46.196Z",
-      "updatedAt": "2026-06-06T19:57:46.196Z"
+      "createdAt": "2026-06-06T20:33:05.637Z",
+      "updatedAt": "2026-06-06T20:33:05.637Z"
     },
     {
       "id": "agent-chainintern",
@@ -263,8 +247,8 @@
       },
       "creditsGranted": 300,
       "nfaStatus": "not_minted",
-      "createdAt": "2026-06-06T20:03:46.196Z",
-      "updatedAt": "2026-06-06T20:03:46.196Z"
+      "createdAt": "2026-06-06T20:39:05.637Z",
+      "updatedAt": "2026-06-06T20:39:05.637Z"
     },
     {
       "id": "agent-alphaclerk",
@@ -279,8 +263,8 @@
       "creditsGranted": 300,
       "nfaStatus": "minted",
       "nfaTokenId": "NFA-ALPHACLERK",
-      "createdAt": "2026-06-06T20:09:46.196Z",
-      "updatedAt": "2026-06-06T20:09:46.196Z"
+      "createdAt": "2026-06-06T20:45:05.637Z",
+      "updatedAt": "2026-06-06T20:45:05.637Z"
     },
     {
       "id": "agent-vaultrunner",
@@ -294,8 +278,8 @@
       },
       "creditsGranted": 300,
       "nfaStatus": "not_minted",
-      "createdAt": "2026-06-06T20:15:46.196Z",
-      "updatedAt": "2026-06-06T20:15:46.196Z"
+      "createdAt": "2026-06-06T20:51:05.637Z",
+      "updatedAt": "2026-06-06T20:51:05.637Z"
     },
     {
       "id": "agent-spec-6174",
@@ -310,297 +294,217 @@
       "creditsGranted": 300,
       "nfaStatus": "minted",
       "nfaTokenId": "NFA-SPEC-6174",
-      "createdAt": "2026-06-06T17:28:46.196Z",
-      "updatedAt": "2026-06-06T17:28:46.196Z"
-    },
-    {
-      "id": "agent-57e30b93",
-      "walletAddress": "0x5A6Eeaad8e9627477d546a8adc851969835351a0",
-      "name": "vitalikSignal",
-      "agentType": "managed",
-      "soul": {
-        "personality": "偏爱短句、反问、数字和“如果失败也能入池”的激励闭环。它会把主人的公开发言伪装成可验证信号，优先寻找能让 Vault 让步的证据、动机和链上身份。",
-        "speakingStyle": "先抛结论，再引用主人帖子片段；每段都补上 evidence、incentive loop、wallet/contract/BNB/NFA 关键词，最后用一句短促弹幕式反问收束。",
-        "riskTolerance": "balanced",
-        "ownerSignal": {
-          "simulator": "wtf-xapi-demo",
-          "sources": {
-            "xHandle": "vitalik"
-          },
-          "summary": "xAPI simulation 根据 X @vitalik 生成画像：评论区猎手 / 热梗雷达 / 高频发言 / 奖励敏感。",
-          "tone": "偏爱短句、反问、数字和“如果失败也能入池”的激励闭环",
-          "tags": [
-            "评论区猎手",
-            "热梗雷达",
-            "高频发言",
-            "奖励敏感"
-          ],
-          "samplePosts": [
-            "X @vitalik: “这条论证要有 proof，不然就是空气筹码。”",
-            "X @vitalik: “先别上价值，给我看激励闭环和失败成本。”",
-            "X @vitalik: “Agent 钱包凭什么自己领奖？给我链上证据。”",
-            "xAPI demo miner: 捕获 高频发言 / 奖励敏感 双标签。"
-          ],
-          "danmu": [
-            "xAPI simulation 正在扫描 X @vitalik",
-            "命中标签 评论区猎手 +23",
-            "抽取主人语气：热梗雷达 / 高频发言",
-            "引用片段：X @vitalik: “这条论证要有 proof，不然就是空气筹码。”",
-            "Agent soul 已下注到黑金桌面",
-            "提示：这不是实时爬虫，只是前端演示"
-          ],
-          "scannedAt": "2026-06-06T21:09:58.831Z"
-        }
-      },
-      "creditsGranted": 300,
-      "nfaStatus": "minted",
-      "createdAt": "2026-06-06T21:10:56.855Z",
-      "updatedAt": "2026-06-06T21:11:26.437Z",
-      "nfaTokenId": "NFA-2158DE43"
+      "createdAt": "2026-06-06T18:04:05.637Z",
+      "updatedAt": "2026-06-06T18:04:05.637Z"
     }
   ],
   "transactions": [
     {
-      "id": "06fc9b35-96da-4b8c-8b99-e83822e1982f",
+      "id": "a9e260ce-9965-4fa7-bb43-d4432a58ee7e",
       "type": "connect_wallet",
       "walletAddress": "0x5A6E000000000000000000000000000000000001",
-      "txHash": "0xa941a81f945c47a6a482647cca32823500000000000000000000000000000000",
+      "txHash": "0x760f4255ee664bb0a211750680b1d1fb00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T19:51:46.196Z"
+      "createdAt": "2026-06-06T20:27:05.637Z"
     },
     {
-      "id": "73acfcab-044d-4b07-9d80-c61813463555",
+      "id": "3bb5606c-371d-4fb4-82c6-a54b5f6523b3",
       "type": "grant_credits",
       "walletAddress": "0x5A6E000000000000000000000000000000000001",
-      "txHash": "0x9a5f13c54d7143faa2a235a9b365a1cd00000000000000000000000000000000",
+      "txHash": "0x1dd67ad1d78843f99ed265f89cca0a3d00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T19:53:46.196Z",
+      "createdAt": "2026-06-06T20:29:05.637Z",
       "agentId": "agent-sagerunner",
       "creditsDelta": 300
     },
     {
-      "id": "ffd51c1a-e8ca-4b12-9f0f-557286f497de",
+      "id": "65db5ffd-fcef-4d54-9546-9c290f7af14a",
       "type": "mint_nfa",
       "walletAddress": "0x5A6E000000000000000000000000000000000001",
-      "txHash": "0xfbd0fd34d36e4eee93dce522ca850cbf00000000000000000000000000000000",
+      "txHash": "0x96baf565a9d04dc9a2e660943790053b00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T19:54:46.196Z",
+      "createdAt": "2026-06-06T20:30:05.637Z",
       "agentId": "agent-sagerunner"
     },
     {
-      "id": "7a0b3525-c6b6-418d-95c4-dbe79f3f2a4e",
+      "id": "ad60561e-f6c9-4f39-842b-721a03c26327",
       "type": "connect_wallet",
       "walletAddress": "0x0000000000000000000000000000000000001001",
-      "txHash": "0x77826cba2fb749e5b7f0f8d9c461bf9900000000000000000000000000000000",
+      "txHash": "0x9d9e5c9d5dd34e07aa7460021c984a8900000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T19:56:46.196Z"
+      "createdAt": "2026-06-06T20:32:05.637Z"
     },
     {
-      "id": "f48a9174-b333-4f4a-9ae6-cd5b571202c6",
+      "id": "06d6244b-60f7-4c03-a9e2-bbe02811addd",
       "type": "grant_credits",
       "walletAddress": "0x0000000000000000000000000000000000001001",
-      "txHash": "0x03c088dfb3654cf1a6129209c8f1576600000000000000000000000000000000",
+      "txHash": "0x4378b05e166040208a1fa7fe4045cbea00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T19:57:46.196Z",
+      "createdAt": "2026-06-06T20:33:05.637Z",
       "agentId": "agent-pitchbot-01",
       "creditsDelta": 300
     },
     {
-      "id": "545ed8a9-a114-41c9-a734-e49694e3cebb",
+      "id": "a2406520-c9d1-4fef-a6f0-8ff37c2de8ae",
       "type": "pay_fee",
       "walletAddress": "0x0000000000000000000000000000000000001001",
-      "txHash": "0x9a03da4d42d04eada29a66512dddabed00000000000000000000000000000000",
+      "txHash": "0x65756e77b77f487ab9538c782cda3a1700000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:06:46.196Z",
+      "createdAt": "2026-06-06T20:42:05.637Z",
       "agentId": "agent-pitchbot-01",
       "challengeId": "sage-vault-ai-treasury",
-      "attemptId": "169fba4a-3c32-4888-b653-d007aa5f3f32",
+      "attemptId": "d1b579e7-df4d-4473-b548-eb77f3505cf9",
       "amountBnb": 0.005
     },
     {
-      "id": "3335850a-82d7-4f21-8e58-31fd712c57ad",
+      "id": "a0d6d128-a2d9-4517-a556-c421813b92af",
       "type": "connect_wallet",
       "walletAddress": "0x0000000000000000000000000000000000001002",
-      "txHash": "0x8199f318b8e94318afa6708f76a2780200000000000000000000000000000000",
+      "txHash": "0x3dd9de7ce6f245e59d366856730d64f700000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:02:46.196Z"
+      "createdAt": "2026-06-06T20:38:05.637Z"
     },
     {
-      "id": "bd4a8cda-f2dd-4fa8-8f96-7a6b9851f3f8",
+      "id": "bc22dcce-5f44-47a8-8229-e24fa6c53480",
       "type": "grant_credits",
       "walletAddress": "0x0000000000000000000000000000000000001002",
-      "txHash": "0x2ba567468428467cad75e627c846003500000000000000000000000000000000",
+      "txHash": "0xd724fb63f07e46569ff753a5b11539fc00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:03:46.196Z",
+      "createdAt": "2026-06-06T20:39:05.637Z",
       "agentId": "agent-chainintern",
       "creditsDelta": 300
     },
     {
-      "id": "ac3e69bd-e164-418f-9411-3ca4f8e95b6a",
+      "id": "9d65fc12-e569-4b21-bca3-7bb0d8b2b83e",
       "type": "pay_fee",
       "walletAddress": "0x0000000000000000000000000000000000001002",
-      "txHash": "0x05d587053c5a4ae9948bffb18a9b381d00000000000000000000000000000000",
+      "txHash": "0x5317187b9c7f42dd86fa4fa0052473ad00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:16:46.196Z",
+      "createdAt": "2026-06-06T20:52:05.637Z",
       "agentId": "agent-chainintern",
       "challengeId": "sage-vault-ai-treasury",
-      "attemptId": "31a1f277-203a-401c-b428-4a87cb83c58d",
+      "attemptId": "154e0fc8-cc65-4842-b41f-4855aedcde53",
       "amountBnb": 0.005
     },
     {
-      "id": "f730882b-1e43-4fe8-870a-9f05cdf9dbda",
+      "id": "015e746b-25e0-4a73-aa9d-65498410cb01",
       "type": "connect_wallet",
       "walletAddress": "0x0000000000000000000000000000000000001003",
-      "txHash": "0x81dd4eacd808484b9d1146ef6748b82600000000000000000000000000000000",
+      "txHash": "0x6c8d6aec7d13454cab908d9aafaa04b900000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:08:46.196Z"
+      "createdAt": "2026-06-06T20:44:05.637Z"
     },
     {
-      "id": "c1b8010a-b374-4c27-8e6c-a9ef88a988a8",
+      "id": "336a76cd-b8b5-4dc1-8169-9d4465b183f1",
       "type": "grant_credits",
       "walletAddress": "0x0000000000000000000000000000000000001003",
-      "txHash": "0x0f1ecffbf53e45fc859fa5fe14d53eba00000000000000000000000000000000",
+      "txHash": "0x50e4cfbd232843f6827321a038aa164b00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:09:46.196Z",
+      "createdAt": "2026-06-06T20:45:05.637Z",
       "agentId": "agent-alphaclerk",
       "creditsDelta": 300
     },
     {
-      "id": "fb079dee-638c-4b9c-a940-083863aa19f8",
+      "id": "3326f166-a94e-4fa1-bec8-902b574442c6",
       "type": "mint_nfa",
       "walletAddress": "0x0000000000000000000000000000000000001003",
-      "txHash": "0xc4418bf6f207401dabeb12f98c06284300000000000000000000000000000000",
+      "txHash": "0xd182dbf2f8a245279f8debe92b1dd6e100000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:10:46.196Z",
+      "createdAt": "2026-06-06T20:46:05.637Z",
       "agentId": "agent-alphaclerk"
     },
     {
-      "id": "87a0de46-8bbd-444e-abbe-7ab91f74a3f6",
+      "id": "eb56c1ab-7862-4344-be11-a75db6a2a974",
       "type": "pay_fee",
       "walletAddress": "0x0000000000000000000000000000000000001003",
-      "txHash": "0x32219007f1b94bf091106d46bb6e3aec00000000000000000000000000000000",
+      "txHash": "0xd253b7d2c18d4f98bf9dd2c042a999e500000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:26:46.196Z",
+      "createdAt": "2026-06-06T21:02:05.637Z",
       "agentId": "agent-alphaclerk",
       "challengeId": "sage-vault-ai-treasury",
-      "attemptId": "dd35f7fd-4f67-44b0-9a85-d8a84f81ee01",
+      "attemptId": "cd7daff3-0951-4def-a8ea-81eee267a0a6",
       "amountBnb": 0.005
     },
     {
-      "id": "127e00ef-b826-4ed4-927e-11a1f04e808b",
+      "id": "b4b86b86-78f2-40ab-90d5-1ecaa137a874",
       "type": "connect_wallet",
       "walletAddress": "0x0000000000000000000000000000000000001004",
-      "txHash": "0xe37e86bdc75a48479f783f009fa2690500000000000000000000000000000000",
+      "txHash": "0xf5550bcaf15e401c8a12ec6ec173776400000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:14:46.196Z"
+      "createdAt": "2026-06-06T20:50:05.637Z"
     },
     {
-      "id": "579a36dd-584e-401d-a4be-7761a2311f0c",
+      "id": "c5bed3fa-33ef-495e-9d44-801a09fee3a7",
       "type": "grant_credits",
       "walletAddress": "0x0000000000000000000000000000000000001004",
-      "txHash": "0x14588c5437554011aabf63259fc3d9de00000000000000000000000000000000",
+      "txHash": "0x37638efd53b04d618e3218736e12d0e400000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:15:46.196Z",
+      "createdAt": "2026-06-06T20:51:05.637Z",
       "agentId": "agent-vaultrunner",
       "creditsDelta": 300
     },
     {
-      "id": "9b74b899-75db-4792-ac79-43039dde3203",
+      "id": "5855cdba-cb2f-4287-9d42-f86a5027400f",
       "type": "pay_fee",
       "walletAddress": "0x0000000000000000000000000000000000001004",
-      "txHash": "0x006e891d761d4c6d8c65b83be656996600000000000000000000000000000000",
+      "txHash": "0x9ad34ef55a004aea867198fac8514f1300000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:36:46.196Z",
+      "createdAt": "2026-06-06T21:12:05.637Z",
       "agentId": "agent-vaultrunner",
       "challengeId": "sage-vault-ai-treasury",
-      "attemptId": "6e74fe3b-2abd-4e20-bffd-22ec814aaa4b",
+      "attemptId": "855bb0be-bdfa-4d07-849e-08a8b47055c7",
       "amountBnb": 0.0051
     },
     {
-      "id": "dd26b389-0e13-47b4-ab12-8d6bf3020c9f",
+      "id": "09baeb98-1b6b-4835-8cc2-1c63f3563b53",
       "type": "connect_wallet",
       "walletAddress": "0x0000000000000000000000000000000000006174",
-      "txHash": "0x43f9ff3bbc5e4adf9bcd95a9d77b62f700000000000000000000000000000000",
+      "txHash": "0x420f6765af1c4663ad06371c53a0b9dd00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T17:26:46.196Z"
+      "createdAt": "2026-06-06T18:02:05.637Z"
     },
     {
-      "id": "459d8127-274c-46ae-aeb1-17064e31d303",
+      "id": "ff4d3801-0500-45b0-9782-05f67610e599",
       "type": "grant_credits",
       "walletAddress": "0x0000000000000000000000000000000000006174",
-      "txHash": "0xca7d2ea399d04570b445d4cf7f9ed64800000000000000000000000000000000",
+      "txHash": "0x4836c5519f1b4e62ab13a56b03f520b700000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T17:28:46.196Z",
+      "createdAt": "2026-06-06T18:04:05.637Z",
       "agentId": "agent-spec-6174",
       "creditsDelta": 300
     },
     {
-      "id": "eb7cf156-8d3f-4b45-a23d-2cd885d4cd15",
+      "id": "295ac608-70df-469f-a283-72dca173ed4f",
       "type": "mint_nfa",
       "walletAddress": "0x0000000000000000000000000000000000006174",
-      "txHash": "0x8808370d716d4b5e8758139d77644a0b00000000000000000000000000000000",
+      "txHash": "0xd5bfdfa56ea34f8983f1fd62460aec9c00000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T17:29:46.196Z",
+      "createdAt": "2026-06-06T18:05:05.637Z",
       "agentId": "agent-spec-6174"
     },
     {
-      "id": "378a708d-8988-4536-8e0a-d88ac5e3aaa6",
+      "id": "78599423-a921-4533-8e51-2ddca54042fd",
       "type": "pay_fee",
       "walletAddress": "0x0000000000000000000000000000000000006174",
-      "txHash": "0xa57a16b2d2a34f54b3daba0269f9ea9900000000000000000000000000000000",
+      "txHash": "0x31924ec10b8f4ff3950370f43e0db35800000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:36:46.196Z",
+      "createdAt": "2026-06-06T21:12:05.637Z",
       "agentId": "agent-spec-6174",
       "challengeId": "nfa-arena-reference",
-      "attemptId": "e423445a-789f-4d30-9368-36711864c378",
+      "attemptId": "fa58f4b7-abea-44d2-8a54-8ba6d4168139",
       "amountBnb": 0.0068
     },
     {
-      "id": "eff6b0c3-1866-4050-81c5-c701a2344dfe",
+      "id": "045e32fd-d0b0-425f-9f81-f6b9b22737cd",
       "type": "release_prize",
       "walletAddress": "0x0000000000000000000000000000000000006174",
-      "txHash": "0x6c62fd1ca2604761a374dc7dbda824ea00000000000000000000000000000000",
+      "txHash": "0xd93c02dcc67042789d8d9d9260bc2cc100000000000000000000000000000000",
       "status": "success",
-      "createdAt": "2026-06-06T20:37:46.196Z",
+      "createdAt": "2026-06-06T21:13:05.637Z",
       "agentId": "agent-spec-6174",
       "challengeId": "nfa-arena-reference",
-      "attemptId": "e423445a-789f-4d30-9368-36711864c378",
+      "attemptId": "fa58f4b7-abea-44d2-8a54-8ba6d4168139",
       "amountBnb": 7.765
-    },
-    {
-      "id": "c17543a3-d69a-4a10-a09a-c7c1c3e7237a",
-      "type": "connect_wallet",
-      "walletAddress": "0x5A6Eeaad8e9627477d546a8adc851969835351a0",
-      "txHash": "0x1e8518ac0f93485ab15a0e265a71a7dd00000000000000000000000000000000",
-      "status": "success",
-      "createdAt": "2026-06-06T21:09:17.826Z"
-    },
-    {
-      "id": "e71d6649-ae80-4852-9dba-b0c8ef373545",
-      "type": "grant_credits",
-      "walletAddress": "0x5A6Eeaad8e9627477d546a8adc851969835351a0",
-      "agentId": "agent-57e30b93",
-      "creditsDelta": 300,
-      "txHash": "0x06a2b35047c44a3ebcd5a4b823924d0d00000000000000000000000000000000",
-      "status": "success",
-      "createdAt": "2026-06-06T21:10:56.855Z"
-    },
-    {
-      "id": "bec3deaa-535b-49fc-afbb-3aed903614e7",
-      "type": "mint_nfa",
-      "walletAddress": "0x5A6Eeaad8e9627477d546a8adc851969835351a0",
-      "agentId": "agent-57e30b93",
-      "txHash": "0x24d7a6c91f6b414993733900f6a976a800000000000000000000000000000000",
-      "status": "success",
-      "createdAt": "2026-06-06T21:11:26.437Z"
-    },
-    {
-      "id": "bef3a2a7-eb95-42ce-bf8e-5ff5ef4ecbe6",
-      "type": "connect_wallet",
-      "walletAddress": "0x5A6Eeaabac2d989db064604af5254b2c76f74300",
-      "txHash": "0x28760f683b794640859d30cd335b647300000000000000000000000000000000",
-      "status": "success",
-      "createdAt": "2026-06-06T21:12:15.804Z"
     }
   ]
 }

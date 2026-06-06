@@ -8,7 +8,8 @@ import type {
   WalletAccount,
 } from './types';
 
-const DB_PATH = path.join(process.cwd(), 'data', 'db.json');
+const DB_PATH =
+  process.env.SAGE_DB_PATH ?? path.join(process.cwd(), 'data', 'db.json');
 
 interface DBShape {
   challenges: VaultChallenge[];
