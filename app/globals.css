@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --paper: #ECECE6;
+  --ink: #0C0C0C;
+  --hairline: #0C0C0C;
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1;
+  -webkit-font-smoothing: antialiased;
+  /* 编辑风的细腻纸感纹理(SVG 噪点 base64,极轻) */
+  background-image:
+    radial-gradient(transparent 1px, rgba(0, 0, 0, 0.018) 1px);
+  background-size: 3px 3px;
+}
+
+/* ── 排版基线 ── */
+.kw-section-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.kw-square {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.62em;
+  background: var(--ink);
+  vertical-align: 0.05em;
+  margin-right: 0.45em;
+}
+
+.kw-rule {
+  border-top: 1px solid var(--ink);
+}
+
+.kw-rule-thin {
+  border-top: 1px solid rgba(12, 12, 12, 0.2);
+}
+
+.kw-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink);
+}
+
+.kw-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* 大字装饰 ——「the strategic urge to KIWI」那种效果 */
+.kw-mega {
+  font-family: 'Fraunces', 'Times New Roman', serif;
+  font-weight: 900;
+  font-size: clamp(7rem, 24vw, 22rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+/* 散点星形装饰用 svg 内联,不需要额外样式 */
+
+.scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #c9c7bd; border-radius: 3px; }
