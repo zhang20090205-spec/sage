@@ -36,7 +36,7 @@ body {
   display: inline-block;
   width: 0.62em;
   height: 0.62em;
-  background: var(--ink);
+  background: currentColor;
   vertical-align: 0.05em;
   margin-right: 0.45em;
 }

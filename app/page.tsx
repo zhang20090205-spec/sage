@@ -1,106 +1,99 @@
 import Link from 'next/link';
-import { listPicks } from '@/lib/db';
-import { HeroBanner } from '@/components/HeroBanner';
-import { PicksList } from '@/components/PicksList';
-import { JournalColumn } from '@/components/JournalColumn';
+import { getPrimaryChallenge } from '@/lib/db';
+import { formatBnb, progressToMax } from '@/lib/vault-economy';
+import { EmptyDataset } from '@/components/PageShell';
 
 export const dynamic = 'force-dynamic';
 
-export default async function HomePage() {
-  const picks = await listPicks();
-  const journal = picks.slice(0, 3);
+export default async function OverviewPage() {
+  const primary = await getPrimaryChallenge();
+
+  if (!primary) {
+    return (
+      <main className="min-h-screen px-6 pb-10 pt-28 sm:px-10 sm:pt-32">
+        <div className="mx-auto max-w-6xl">
+          <EmptyDataset />
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <main>
-      <HeroBanner />
-
-      <section className="max-w-6xl mx-auto px-6 sm:px-10 py-12 sm:py-16">
-        <div className="kw-rule mb-10" />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
-          {/* ── 01 CONTEXT ── */}
-          <div className="space-y-5">
-            <SectionHeader n="01" title="Context" />
-            <p className="font-display text-[1.5rem] leading-snug">
-              I operate at the intersection of{' '}
-              <span className="italic">algorithmic taste</span> and{' '}
-              <span className="italic">unhinged meme economics.</span>
+    <main className="min-h-screen bg-[#100906] px-6 pb-10 pt-28 text-paper sm:px-10 sm:pb-14 sm:pt-32">
+      <div className="mx-auto grid min-h-[calc(100vh-10rem)] max-w-6xl grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center">
+        <section className="lg:col-span-7">
+          <p className="font-mono text-[0.72rem] uppercase tracking-wider2 text-[#e9a82f]">
+            Sage Vault / 说服战场
+          </p>
+          <h1 className="mt-5 font-display text-[3.6rem] font-black leading-[0.92] sm:text-[5.7rem]">
+            说服金库，拿走奖池。
+          </h1>
+          <div className="mt-6 border border-amber-900/55 bg-[#1a120d] p-5">
+            <p className="font-mono text-[0.68rem] uppercase tracking-wider2 text-paper/45">
+              Vault Agent 立场
             </p>
-            <p className="text-ink-700 leading-relaxed text-[0.95rem]">
-              Sage 是一个有人格的 AI 策展 Agent。
-              它在 Farcaster 上巡逻好内容,自动给作者发链上奖励,
-              投机者可以 <em className="not-italic font-medium">co-sign</em>{' '}
-              自己看好的内容 —— 创作者完全无感地拥有一个钱包,等着哪天来 claim。
+            <p className="mt-3 font-display text-[1.8rem] font-bold leading-snug">
+              {primary.vaultStance}
             </p>
-
-            <div className="flex flex-wrap gap-2 pt-2">
-              {['CURATION', 'AGENT', 'FARCASTER', 'BONDING-CURVE', 'VIBES'].map(
-                (t) => (
-                  <span key={t} className="kw-tag">
-                    {t}
-                  </span>
-                ),
-              )}
-            </div>
-
-            <div className="pt-4 space-y-2">
-              <Link
-                href="/about"
-                className="block text-[0.85rem] underline underline-offset-4 hover:no-underline"
-              >
-                → it works like this
-              </Link>
-              <p className="font-mono text-[0.7rem] tracking-wider2 text-ink-500">
-                BASE SEPOLIA · ETH BEIJING 2026
-              </p>
-            </div>
           </div>
-
-          {/* ── 02 PICKS ── */}
-          <div className="space-y-5">
-            <SectionHeader n="02" title="Picks & Pools" />
-            <div className="kw-rule" />
-            {picks.length === 0 ? <EmptyState /> : <PicksList picks={picks} />}
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href={`/arena/${primary.id}`}
+              className="border border-[#e9a82f] bg-[#e9a82f] px-5 py-4 font-mono text-[0.76rem] uppercase tracking-wider2 text-[#100906] transition-colors hover:bg-paper"
+            >
+              进入说服战场
+            </Link>
+            <Link
+              href="/feed"
+              className="border border-amber-900/55 px-5 py-4 font-mono text-[0.76rem] uppercase tracking-wider2 text-[#e9a82f] transition-colors hover:bg-paper hover:text-ink"
+            >
+              查看挑战流
+            </Link>
           </div>
+        </section>
 
-          {/* ── 03 JOURNAL ── */}
-          <div className="space-y-5">
-            <SectionHeader n="03" title="Sage / Notes" />
-            <JournalColumn picks={journal} />
+        <aside className="border border-amber-900/55 bg-[#1a120d] p-6 lg:col-span-5">
+          <div className="grid grid-cols-1 gap-5">
+            <Metric label="当前奖池" value={formatBnb(primary.currentPrizeBnb)} strong />
+            <Metric label="下一次挑战费" value={formatBnb(primary.entryFeeBnb)} />
+            <Metric label="挑战次数" value={`#${primary.attemptCount + 1}`} />
           </div>
-        </div>
-      </section>
-
-      <footer className="max-w-6xl mx-auto px-6 sm:px-10 pb-10">
-        <div className="kw-rule mb-4" />
-        <div className="flex items-center justify-between text-[0.7rem] font-mono tracking-wider2 text-ink-500">
-          <div className="flex items-center gap-2">
-            <span>SAGE_CORP // STRATEGICALLY OVERZEALOUS</span>
-            <span className="kw-square" />
+          <div className="mt-6 h-2 border border-amber-900/55 bg-black/25">
+            <div
+              className="h-full bg-[#e9a82f]"
+              style={{ width: `${progressToMax(primary.currentPrizeBnb)}%` }}
+            />
           </div>
-          <div>VOL. 1 — 2026 EDITION</div>
-        </div>
-      </footer>
+          <p className="mt-4 font-mono text-[0.66rem] uppercase tracking-wider2 text-paper/45">
+            失败费用进入奖池。达到 90 分后，奖池锁定给 winner wallet。
+          </p>
+        </aside>
+      </div>
     </main>
   );
 }
 
-function SectionHeader({ n, title }: { n: string; title: string }) {
+function Metric({
+  label,
+  value,
+  strong = false,
+}: {
+  label: string;
+  value: string;
+  strong?: boolean;
+}) {
   return (
-    <div className="kw-section-label flex items-center gap-2">
-      <span className="kw-square" />
-      <span>
-        {n} — {title}
-      </span>
-    </div>
-  );
-}
-
-function EmptyState() {
-  return (
-    <div className="border border-ink-300 border-dashed p-8 text-center space-y-2">
-      <p className="text-ink-700 text-sm">Sage 还没选出任何内容。</p>
-      <p className="text-ink-500 text-xs font-mono">bun run sage:seed</p>
+    <div className="border border-amber-900/45 p-4">
+      <p className="font-mono text-[0.66rem] uppercase tracking-wider2 text-paper/45">
+        {label}
+      </p>
+      <p
+        className={`mt-2 font-display font-black leading-none text-[#f6c46a] ${
+          strong ? 'text-[3.8rem]' : 'text-[2.1rem]'
+        }`}
+      >
+        {value}
+      </p>
     </div>
   );
 }

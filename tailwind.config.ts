@@ -12,7 +12,7 @@ import type { Config } from 'tailwindcss';
  *   分别给装饰字母 / 标签 / hover / 强调使用,不抢戏
  */
 const config: Config = {
-  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './lib/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {

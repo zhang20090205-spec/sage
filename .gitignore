@@ -8,13 +8,13 @@ out/
 .env.local
 .env*.local
 
-# local data
-data/db.json
-data/db.local.json
-
 # logs
 *.log
 npm-debug.log*
+
+# local automation artifacts
+.omx/
+.playwright-cli/
 
 # misc
 .DS_Store
@@ -22,4 +22,3 @@ npm-debug.log*
 .vercel
 .idea
 .vscode
-.omx/

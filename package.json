@@ -2,13 +2,12 @@
   "name": "sage",
   "version": "0.1.0",
   "private": true,
-  "description": "Sage — AI 策展协议 (ETH Beijing 2026 Hackathon)",
+  "description": "Sage Persuasion Colosseum demo for ETH Beijing 2026",
   "scripts": {
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
     "lint": "next lint",
-    "sage:loop": "bun run scripts/sage-loop.ts",
     "sage:seed": "bun run scripts/seed-demo.ts"
   },
   "dependencies": {

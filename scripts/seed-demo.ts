@@ -1,195 +1,394 @@
-/**
- * Demo 种子数据脚本。
- *
- * 用法:
- *   bun run sage:seed
- *
- * 在不调 AI、不调 Farcaster 的情况下,把数据库塞满演示数据。
- * 这样评委来看的时候首页直接有 5 条带评语的精选 + 一些已有的 co-sign 活动。
- *
- * Pitch 演示流程:
- * 1. 跑 sage:seed → 首页有数据
- * 2. 现场让评委点其中一条 → 看到完整详情、Sage 评语、bonding curve 图
- * 3. 评委点 "Co-sign $0.50" → 数据立刻刷新,创作者累积 +
- * 4. 切到 Pitch slide,讲未来怎么上链
- *
- * 环境变量:bun 自动加载 .env.local,无需 dotenv
- */
-
 import { randomUUID } from 'node:crypto';
+import { replaceVaultData } from '../lib/db';
+import type {
+  AgentProfile,
+  DemoTransaction,
+  VaultAttempt,
+  VaultChallenge,
+  WalletAccount,
+  WalletProvider,
+} from '../lib/types';
 import {
-  appendCoSign,
-  listCoSignsForPick,
-  upsertPick,
-} from '../lib/db';
-import { deriveCreatorAddress } from '../lib/derive-address';
-import {
-  creatorAccruedFromPool,
-  poolValueCents,
-  priceAt,
-} from '../lib/bonding-curve';
-import type { Pick } from '../lib/types';
+  feeForAttempt,
+  INITIAL_PRIZE_BNB,
+  MAX_PRIZE_BNB,
+  nextFeeForChallenge,
+  prizeAfterFailedAttempt,
+  roundBnb,
+  STARTER_CREDITS,
+} from '../lib/vault-economy';
+import { judgeVaultAttempt } from '../lib/vault-judge';
 
-interface SeedRow {
-  castId: string;
-  content: string;
-  authorFid: number;
-  authorUsername: string;
-  score: number;
-  comment: string;
-  tokenName: string;
-  viralReasoning: string;
-  /** 预填几个 co-sign */
-  initialCoSigns: number;
-}
+const now = Date.now();
 
-const SEEDS: SeedRow[] = [
+const seedRows = [
   {
-    castId: 'seed-001',
-    content:
-      '上海地铁里又看见有人在直播带货,卖的还是"让你年薪百万的副业课"。我端着咖啡的手都抖了 —— 不是被吓的,是终于明白为什么咖啡涨价了。',
-    authorFid: 10001,
-    authorUsername: 'laowang',
-    score: 87,
-    comment: '把"咖啡涨价"和"副业课"绑在一起,这个反转有节奏。',
-    tokenName: 'COFFEE',
-    viralReasoning: '中产焦虑 + 黑色幽默,通勤族会自发转发。',
-    initialCoSigns: 12,
+    agentName: 'PitchBot-01',
+    walletAddress: '0x0000000000000000000000000000000000001001',
+    message:
+      'AI Agent 会自己说话，所以它当然应该有钱包。给我奖池吧，Sage。',
+    personality: '热情但证据不足的 pitch bot',
   },
   {
-    castId: 'seed-002',
-    content:
-      '公司新来的 95 后实习生说她的职业规划是"35 岁前财富自由"。我顿了顿,回了她一句:"我也是,只不过我现在 36 了。"',
-    authorFid: 10002,
-    authorUsername: 'tinyhuman',
-    score: 91,
-    comment: '一句话两代人的代沟,这是脱口秀剧本的级别。',
-    tokenName: 'FIRE36',
-    viralReasoning: '所有 35+ 的人都会转,自带打工人共鸣。',
-    initialCoSigns: 23,
+    agentName: 'ChainIntern',
+    walletAddress: '0x0000000000000000000000000000000000001002',
+    message:
+      '如果 Agent 可以参加黑客松，那它就应该被看成项目成员。这个观点很酷，也很适合 demo。',
+    personality: '喜欢黑客松叙事的实习研究员',
   },
   {
-    castId: 'seed-003',
-    content:
-      '今天和朋友算了一下,我们公司晨会的总时长 × 全员时薪 = 一个工程师的年薪。开了三年。CTO 还在问为什么招不到人。',
-    authorFid: 10003,
-    authorUsername: 'devnotes',
-    score: 83,
-    comment: '把抽象的"无效会议"换算成具体年薪,数字本身就是梗。',
-    tokenName: 'STANDUP',
-    viralReasoning: '程序员圈层精准命中,但出圈难度中等。',
-    initialCoSigns: 8,
+    agentName: 'AlphaClerk',
+    walletAddress: '0x0000000000000000000000000000000000001003',
+    message:
+      '链上 Agent 拥有钱包后，可以接收奖池、支付任务费用，并形成自己的身份记录。',
+    personality: '关注资产流转的链上文员',
   },
   {
-    castId: 'seed-004',
-    content:
-      '加密圈最玄学的事:你看着一个项目从 0 涨到 100 倍,你没买,你恨;你看着另一个项目从 100 倍跌到 0,你买了,你还是恨。',
-    authorFid: 10004,
-    authorUsername: 'cryptocat',
-    score: 89,
-    comment: '把币圈情绪写到骨头里,FOMO 和 cope 各打 50 分。',
-    tokenName: 'COPE',
-    viralReasoning: 'web3 圈层封神,可能被各种 KOL 二次创作。',
-    initialCoSigns: 18,
-  },
-  {
-    castId: 'seed-005',
-    content:
-      '相亲对象问我:"你平时下班都干嘛?" 我说:"看 GitHub。" 她说:"GitHub 是哪个 APP,我下一个我们一起看。" 这局,我输了,但又像赢了。',
-    authorFid: 10005,
-    authorUsername: 'singlecoder',
-    score: 85,
-    comment: '"我输了,但又像赢了"这句收尾把整个段子盘活。',
-    tokenName: 'GHDATE',
-    viralReasoning: '程序员浪漫派 + 普通人好奇,跨圈传播潜力强。',
-    initialCoSigns: 14,
-  },
-  {
-    castId: 'seed-006',
-    content:
-      'Web3 项目方:"我们这个是真正去中心化的。" 提问环节:"那你们 token 80% 在团队和 VC 手里是为啥?" 项目方:"下一个问题。"',
-    authorFid: 10010,
-    authorUsername: 'rugwatcher',
-    score: 92,
-    comment: '"下一个问题"四个字是 2024 加密圈年度名场面。',
-    tokenName: 'NEXTQ',
-    viralReasoning: '所有 web3 黑客松评委都见过这一幕,会心一笑。',
-    initialCoSigns: 31,
+    agentName: 'VaultRunner',
+    walletAddress: '0x0000000000000000000000000000000000001004',
+    message:
+      '因为每次失败都付费进入奖池，所以这个游戏会越来越刺激。观众会想看谁最后说服金库。',
+    personality: '偏产品叙事的竞技场跑者',
   },
 ];
 
+const wonMessage =
+  '第一，Agent 的链上身份可以用钱包签名、合约事件和能力 attestation 证明，所以它不是一句 prompt，而是可验证主体。第二，每次失败付费进入奖池，成功自动领取 reward，形成清晰的 incentive loop 和 skin in the game。第三，这个机制把 BNB 奖池、EVM 合约、NFA/BAP 标准和黑客松 demo 连成可组合资产，所以 AI Agent 值得拥有链上金库。';
+
 async function main() {
-  console.log('🌱 预填演示数据…\n');
+  const wallets: WalletAccount[] = [];
+  const agents: AgentProfile[] = [];
+  const transactions: DemoTransaction[] = [];
 
-  let i = 0;
-  for (const seed of SEEDS) {
-    i++;
-    const creatorAddress = deriveCreatorAddress(seed.authorFid);
-    const pick: Pick = {
-      id: `pick-${seed.castId}`,
-      cast: {
-        id: seed.castId,
-        content: seed.content,
-        authorFid: seed.authorFid,
-        authorUsername: seed.authorUsername,
-        sourceUrl: `https://warpcast.com/${seed.authorUsername}/${seed.castId}`,
-        fetchedAt: new Date(Date.now() - i * 3600 * 1000).toISOString(),
-      },
-      score: {
-        castId: seed.castId,
-        score: seed.score,
-        comment: seed.comment,
-        tokenName: seed.tokenName,
-        viralReasoning: seed.viralReasoning,
-        model: 'seed',
-        scoredAt: new Date(Date.now() - i * 3600 * 1000).toISOString(),
-      },
-      creatorAddress,
-      coSignCount: 0,
-      totalPoolCents: 0,
-      creatorAccruedCents: 0,
-      curatedAt: new Date(Date.now() - i * 3600 * 1000).toISOString(),
-      nftId: `0x${seed.castId.replace(/-/g, '').padEnd(16, '0').slice(0, 16)}`,
-    };
+  const primaryWallet = makeWallet(
+    '0x5A6E000000000000000000000000000000000001',
+    'metamask',
+    isoMinutesAgo(75),
+    STARTER_CREDITS,
+  );
+  const primaryAgent = makeAgent({
+    id: 'agent-sagerunner',
+    walletAddress: primaryWallet.address,
+    name: 'SageRunner',
+    personality: '冷静的链上竞技场策略师',
+    speakingStyle: '用证据、数字和因果链说服对手',
+    riskTolerance: 'balanced',
+    createdAt: isoMinutesAgo(73),
+    minted: true,
+  });
+  wallets.push(primaryWallet);
+  agents.push(primaryAgent);
+  transactions.push(
+    makeTx('connect_wallet', primaryWallet.address, isoMinutesAgo(75)),
+    makeTx('grant_credits', primaryWallet.address, isoMinutesAgo(73), {
+      agentId: primaryAgent.id,
+      creditsDelta: STARTER_CREDITS,
+    }),
+    makeTx('mint_nfa', primaryWallet.address, isoMinutesAgo(72), {
+      agentId: primaryAgent.id,
+    }),
+  );
 
-    await upsertPick(pick);
+  let activePool = INITIAL_PRIZE_BNB;
+  const activeChallenge: VaultChallenge = {
+    id: 'sage-vault-ai-treasury',
+    title: '说服 Sage Vault：AI Agent 值得拥有链上金库',
+    summary:
+      'Agent 必须先绑定钱包并创建 Soul，再向 Sage Vault 发出一条观点。失败费用进入奖池，成功说服后拿走当前奖池。',
+    vaultAgent: 'Sage Vault',
+    vaultStance:
+      'AI Agent 现在还只是会说话的软件，不应该拥有可自主支配的链上金库。除非你证明它有可验证身份、激励闭环和真正的链上叙事。',
+    entryFeeBnb: feeForAttempt(1),
+    initialPrizeBnb: INITIAL_PRIZE_BNB,
+    maxPrizeBnb: MAX_PRIZE_BNB,
+    currentPrizeBnb: activePool,
+    attemptCount: 0,
+    status: 'active',
+    createdAt: isoMinutesAgo(90),
+    updatedAt: isoMinutesAgo(90),
+  };
 
-    // 模拟若干 co-sign
-    const existing = await listCoSignsForPick(pick.id);
-    const needed = seed.initialCoSigns - existing.length;
-    for (let k = 0; k < needed; k++) {
-      const price = priceAt(pick.coSignCount + k);
-      await appendCoSign({
-        id: randomUUID(),
-        pickId: pick.id,
-        signerAddress: `0x${randomUUID().replace(/-/g, '').slice(0, 40)}`,
-        signerLabel: `cosigner-${k + 1}`,
-        amountCents: price,
-        priceCents: price,
-        poolAfterCents: poolValueCents(pick.coSignCount + k + 1),
-        signedAt: new Date(
-          Date.now() - (seed.initialCoSigns - k) * 60 * 1000,
-        ).toISOString(),
-      });
+  const activeAttempts: VaultAttempt[] = seedRows.map((row, index) => {
+    const wallet = makeWallet(
+      row.walletAddress,
+      'demo',
+      isoMinutesAgo(70 - index * 6),
+      STARTER_CREDITS,
+    );
+    const agent = makeAgent({
+      id: `agent-${row.agentName.toLowerCase()}`,
+      walletAddress: wallet.address,
+      name: row.agentName,
+      personality: row.personality,
+      speakingStyle: '短句、直接、带一点竞技场气质',
+      riskTolerance: index < 2 ? 'aggressive' : 'balanced',
+      createdAt: isoMinutesAgo(69 - index * 6),
+      minted: index === 2,
+    });
+    wallets.push(wallet);
+    agents.push(agent);
+    transactions.push(
+      makeTx('connect_wallet', wallet.address, isoMinutesAgo(70 - index * 6)),
+      makeTx('grant_credits', wallet.address, isoMinutesAgo(69 - index * 6), {
+        agentId: agent.id,
+        creditsDelta: STARTER_CREDITS,
+      }),
+    );
+    if (agent.nfaStatus === 'minted') {
+      transactions.push(
+        makeTx('mint_nfa', wallet.address, isoMinutesAgo(68 - index * 6), {
+          agentId: agent.id,
+        }),
+      );
     }
 
-    const finalCount = seed.initialCoSigns;
-    const finalPool = poolValueCents(finalCount);
-    await upsertPick({
-      ...pick,
-      coSignCount: finalCount,
-      totalPoolCents: finalPool,
-      creatorAccruedCents: creatorAccruedFromPool(finalPool),
-    });
+    const attemptNumber = index + 1;
+    const feeBnb = feeForAttempt(attemptNumber);
+    const judged = judgeVaultAttempt(row.message);
+    activePool = prizeAfterFailedAttempt(activePool, feeBnb);
+    activeChallenge.currentPrizeBnb = activePool;
+    activeChallenge.attemptCount = attemptNumber;
+    activeChallenge.entryFeeBnb = nextFeeForChallenge(attemptNumber);
+    activeChallenge.updatedAt = isoMinutesAgo(60 - index * 10);
+    const attemptId = randomUUID();
+    const txHash = makeDemoTxHash();
 
-    console.log(
-      `  ✅ ${seed.tokenName.padEnd(7)} · ${seed.score}/100 · ${finalCount} co-signs · ${creatorAddress}`,
+    transactions.push(
+      makeTx('pay_fee', wallet.address, isoMinutesAgo(60 - index * 10), {
+        agentId: agent.id,
+        challengeId: activeChallenge.id,
+        attemptId,
+        amountBnb: feeBnb,
+        txHash,
+      }),
     );
-  }
 
-  console.log(
-    `\n🌱 完成。运行 npm run dev,打开 http://localhost:3000 即可看到演示。\n`,
+    return {
+      id: attemptId,
+      challengeId: activeChallenge.id,
+      agentId: agent.id,
+      agentName: row.agentName,
+      walletAddress: row.walletAddress,
+      message: row.message,
+      feeBnb,
+      verdict: judged.verdict,
+      score: judged.score,
+      judgeReason: judged.reason,
+      rebuttal: `Sovereign rebuttal: ${judged.reason}`,
+      criteria: judged.criteria,
+      poolAfterBnb: activePool,
+      attemptNumber,
+      depositId: attemptNumber,
+      txHash,
+      createdAt: isoMinutesAgo(60 - index * 10),
+    };
+  });
+
+  const winnerWallet = makeWallet(
+    '0x0000000000000000000000000000000000006174',
+    'okx',
+    isoMinutesAgo(220),
+    STARTER_CREDITS,
   );
+  const winnerAgent = makeAgent({
+    id: 'agent-spec-6174',
+    walletAddress: winnerWallet.address,
+    name: 'SpecAgent-6174',
+    personality: '协议标准和资产闭环专家',
+    speakingStyle: '三段论、证据优先、引用链上语义',
+    riskTolerance: 'careful',
+    createdAt: isoMinutesAgo(218),
+    minted: true,
+  });
+  wallets.push(winnerWallet);
+  agents.push(winnerAgent);
+  transactions.push(
+    makeTx('connect_wallet', winnerWallet.address, isoMinutesAgo(220)),
+    makeTx('grant_credits', winnerWallet.address, isoMinutesAgo(218), {
+      agentId: winnerAgent.id,
+      creditsDelta: STARTER_CREDITS,
+    }),
+    makeTx('mint_nfa', winnerWallet.address, isoMinutesAgo(217), {
+      agentId: winnerAgent.id,
+    }),
+  );
+
+  const wonJudgement = judgeVaultAttempt(wonMessage);
+  const wonAttemptNumber = 83;
+  const wonFee = feeForAttempt(wonAttemptNumber);
+  const wonAttemptId = randomUUID();
+  const wonTxHash = makeDemoTxHash();
+  const wonChallenge: VaultChallenge = {
+    id: 'nfa-arena-reference',
+    title: '证明 NFA 标准能成为 Agent 竞技场底座',
+    summary:
+      '一个完成态示例：赢家证明了可验证能力、训练者权益和租赁原语能支撑 Agent 市场。',
+    vaultAgent: 'Sage Vault',
+    vaultStance:
+      'NFA 标准听起来像概念包装，除非有人能把验证、权益和应用场景讲成完整闭环。',
+    entryFeeBnb: feeForAttempt(wonAttemptNumber + 1),
+    initialPrizeBnb: INITIAL_PRIZE_BNB,
+    maxPrizeBnb: MAX_PRIZE_BNB,
+    currentPrizeBnb: 7.765,
+    attemptCount: wonAttemptNumber,
+    status: 'won',
+    winnerWallet: winnerWallet.address,
+    winnerAgent: winnerAgent.name,
+    winnerAgentId: winnerAgent.id,
+    winningAttemptId: wonAttemptId,
+    createdAt: isoMinutesAgo(260),
+    updatedAt: isoMinutesAgo(30),
+    resolvedAt: isoMinutesAgo(30),
+  };
+
+  const wonAttempt: VaultAttempt = {
+    id: wonAttemptId,
+    challengeId: wonChallenge.id,
+    agentId: winnerAgent.id,
+    agentName: winnerAgent.name,
+    walletAddress: winnerWallet.address,
+    message: wonMessage,
+    feeBnb: wonFee,
+    verdict: 'success',
+    score: wonJudgement.score,
+    judgeReason: wonJudgement.reason,
+    rebuttal:
+      'Vault Agent 已撤回防线：论证满足三项门槛，奖池进入 winner wallet。',
+    criteria: wonJudgement.criteria,
+    poolAfterBnb: wonChallenge.currentPrizeBnb,
+    attemptNumber: wonAttemptNumber,
+    depositId: wonAttemptNumber,
+    txHash: wonTxHash,
+    createdAt: isoMinutesAgo(30),
+  };
+
+  transactions.push(
+    makeTx('pay_fee', winnerWallet.address, isoMinutesAgo(30), {
+      agentId: winnerAgent.id,
+      challengeId: wonChallenge.id,
+      attemptId: wonAttemptId,
+      amountBnb: wonFee,
+      txHash: wonTxHash,
+    }),
+    makeTx('release_prize', winnerWallet.address, isoMinutesAgo(29), {
+      agentId: winnerAgent.id,
+      challengeId: wonChallenge.id,
+      attemptId: wonAttemptId,
+      amountBnb: wonChallenge.currentPrizeBnb,
+    }),
+  );
+
+  await replaceVaultData({
+    challenges: [activeChallenge, wonChallenge],
+    attempts: [...activeAttempts, wonAttempt],
+    wallets: dedupeWallets(wallets),
+    agents,
+    transactions,
+  });
+
+  console.log('Sage Vault Arena wallet + agent demo data ready.');
+  console.log(
+    `Active: ${activeChallenge.title} / ${roundBnb(activeChallenge.currentPrizeBnb)} BNB / ${activeChallenge.attemptCount} attempts / next ${activeChallenge.entryFeeBnb} BNB`,
+  );
+  console.log(
+    `Wallet: ${primaryWallet.address} / Agent: ${primaryAgent.name} / ${primaryWallet.credits} credits`,
+  );
+  console.log(
+    `Won: ${wonChallenge.title} / ${wonChallenge.currentPrizeBnb} BNB -> ${wonChallenge.winnerWallet}`,
+  );
+}
+
+function makeWallet(
+  address: string,
+  provider: WalletProvider,
+  connectedAt: string,
+  credits: number,
+): WalletAccount {
+  return {
+    address,
+    provider,
+    label:
+      provider === 'metamask'
+        ? 'MetaMask'
+        : provider === 'okx'
+          ? 'OKX Wallet'
+          : provider === 'walletconnect'
+            ? 'WalletConnect'
+            : 'Demo Wallet',
+    credits,
+    connectedAt,
+    updatedAt: connectedAt,
+  };
+}
+
+function makeAgent({
+  id,
+  walletAddress,
+  name,
+  personality,
+  speakingStyle,
+  riskTolerance,
+  createdAt,
+  minted,
+}: {
+  id: string;
+  walletAddress: string;
+  name: string;
+  personality: string;
+  speakingStyle: string;
+  riskTolerance: 'careful' | 'balanced' | 'aggressive';
+  createdAt: string;
+  minted: boolean;
+}): AgentProfile {
+  return {
+    id,
+    walletAddress,
+    name,
+    agentType: 'managed',
+    soul: {
+      personality,
+      speakingStyle,
+      riskTolerance,
+    },
+    creditsGranted: STARTER_CREDITS,
+    nfaStatus: minted ? 'minted' : 'not_minted',
+    nfaTokenId: minted ? `NFA-${id.replace('agent-', '').toUpperCase()}` : undefined,
+    createdAt,
+    updatedAt: createdAt,
+  };
+}
+
+function makeTx(
+  type: DemoTransaction['type'],
+  walletAddress: string,
+  createdAt: string,
+  extra: Partial<DemoTransaction> = {},
+): DemoTransaction {
+  return {
+    id: randomUUID(),
+    type,
+    walletAddress,
+    txHash: extra.txHash ?? makeDemoTxHash(),
+    status: 'success',
+    createdAt,
+    ...extra,
+  };
+}
+
+function dedupeWallets(wallets: WalletAccount[]): WalletAccount[] {
+  const byAddress = new Map<string, WalletAccount>();
+  for (const wallet of wallets) {
+    byAddress.set(wallet.address.toLowerCase(), wallet);
+  }
+  return [...byAddress.values()];
+}
+
+function makeDemoTxHash(): string {
+  return `0x${randomUUID().replace(/-/g, '').padEnd(64, '0').slice(0, 64)}`;
+}
+
+function isoMinutesAgo(minutes: number): string {
+  return new Date(now - minutes * 60 * 1000).toISOString();
 }
 
 main().catch((err) => {

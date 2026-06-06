@@ -1,59 +1,98 @@
 # Sage Persuasion Colosseum
 
-ETH Beijing 2026 黑客松Sage 把一个 Managed Agent 放进说服竞技场：Agent 绑定 demo 钱包和身份，向 Sage Vault 提交论证，失败会让奖池继续增长，成功会把奖池展示为归属 winner wallet。
+ETH Beijing 2026 hackathon demo. A wallet owns a Managed Agent, the Agent pays a demo BNB fee to challenge Sage Vault, and the Vault either rejects the argument or releases the prize pool to the winner wallet.
 
-这是钱包、BNB 数值、交易哈希、奖池和裁判。
+This is a frontend-first demo. It does not request real signatures, send real BNB, deploy contracts, or call an external judge model. Wallets, NFA identity, fees, tx hashes, settlement, and prize pools are stored in local JSON for a stable live presentation.
 
-## 可以展示什么
+## What You Demo
 
-- Demo 钱包入口：MetaMask / OKX / WalletConnect 风格按钮，用于进入后续流程。
-- Owner handle 模拟扫描：输入一个 X / Twitter handle，生成 Agent 的主人画像、标签、语气和弹幕素材。
-- Managed Agent 创建：基于扫描结果生成 Agent 名字、人格、表达风格和风险偏好。
-- Demo NFA：为 Agent 展示一个本地身份凭证状态，帮助评委理解 Agent identity 的产品概念。
-- Vault Arena：Agent 支付动态 demo BNB fee，向 Sage Vault 提交一条说服论证。
-- Sage Vault 判断：根据证据、激励闭环、链上叙事和表达结构给出胜负反馈。
-- 奖池反馈：失败尝试进入奖池，成功尝试将奖池展示为归属 winner wallet。
-- Feed / Markets：展示最近尝试、胜负结果和奖池榜单。
+1. Bind a demo wallet with MetaMask / OKX / WalletConnect style buttons.
+2. Enter one X/Twitter owner handle and let the frontend simulate a WTF-xAPI scan.
+3. Create a Managed Agent from the generated owner signal, with personality, debate style, risk profile, and optional demo NFA.
+4. Enter the Sage Vault Arena.
+5. Submit one Agent argument.
+6. Watch the battle pipeline: pay fee, queue, Arbiter pre-screen, Sovereign evaluation, settlement.
+7. Failed attempts add the fee to the prize pool. Strong arguments can pass the deterministic judge and lock the pool to the winner wallet.
 
-## 演示路线
+## Core Routes
 
-1. 打开首页 `/`。
-2. 选择一个 demo 钱包入口。
-3. 输入 owner handle，运行模拟扫描。
-4. 创建 Managed Agent，并可选择生成 demo NFA。
-5. 进入 Vault Arena，提交一条较弱论证，观察失败入池。
-6. 再提交一条包含证据、激励闭环、BNB / wallet / NFA 叙事和清晰结构的强论证。
-7. 查看成功结果，再打开 `/feed` 和 `/markets` 展示状态变化。
-
-## 页面入口
-
-| Route | 用途 |
+| Route | Purpose |
 | --- | --- |
-| `/` | 首页、当前挑战和竞技场入口 |
-| `/agent` | Demo 钱包、Managed Agent、NFA 和裁判规则控制台 |
-| `/arena/[id]` | 可玩的说服竞技场 |
-| `/feed` | 尝试记录和最近 verdict |
-| `/markets` | 奖池榜单 |
-| `/about` | 机制说明和 demo 参数 |
+| `/` | Main arena entry and current Vault stance |
+| `/arena/[id]` | Playable persuasion battle |
+| `/feed` | Attempt stream and recent verdicts |
+| `/markets` | Prize-pool leaderboard |
+| `/about` | Mechanism and demo constants |
+| `/agent` | Wallet, Agent, NFA, and judge rule console |
 
-## 本地运行
+Legacy `/pick/[id]` redirects to `/arena`. Legacy `/api/cosign` is deprecated; the active challenge endpoint is `/api/attempt`.
+
+## Run Locally
 
 ```bash
 bun install
 bun run sage:seed
-bun run dev
+bun --bun next dev
 ```
 
-打开 http://localhost:3000。
+Open http://localhost:3000.
 
-重置演示数据：
+Useful validation:
 
 ```bash
 bun run sage:seed
+bun --bun next build
 ```
 
-## 项目
+## Demo Data
 
-Sage 想展示的是一个 Agent 如何从“会说话的界面”变成“能进入规则、承担结果、留下记录的角色”。它先获得一个 demo 钱包和身份，再进入 Vault Arena 发起挑战。
+`scripts/seed-demo.ts` writes `data/db.json` with:
 
-每次挑战都不是单纯聊天：Agent 要围绕证据、激励、链上身份和奖池归属组织论证。失败会让奖池继续累积，成功会把奖池展示为归属 winner wallet。整个 demo 用一个短流程讲清楚：创建 Agent，进入 Arena，提交论证，看到结果，回到 Feed 和 Markets 查看变化。
+- one active Vault challenge
+- one already-won Vault challenge
+- six demo wallets and Managed Agents
+- failed attempts that grow the prize pool
+- one successful argument sample
+- local transaction records for wallet connect, credit grants, NFA minting, fee deposits, and prize release
+
+The fee curve is:
+
+```txt
+fee(n) = 0.005 * 1.0038^(n - 1), cap 0.5 BNB
+```
+
+The win threshold is `90/100`.
+
+## Deterministic Judge
+
+The judge is local and reproducible. It rewards arguments that include:
+
+- verifiable identity or evidence: signature, attestation, audit, event, proof
+- incentive loop: fee, pool, prize, reward, failure, success
+- onchain narrative: wallet, contract, BNB, EVM, NFA, protocol, asset
+- clear structure: first/second/third, because/therefore, concrete numbers
+
+The UI displays six derived dimensions: Evidence, Logic, Incentive, Onchain, Narrative, and Risk Control. Only the original three judge criteria are stored in `data/db.json`; the six bars are presentation helpers.
+
+## xAPI Owner Scan Simulation
+
+The Agent creation flow is inspired by WTF-xAPI, which exposes agent-friendly social and search APIs. This demo does not call WTF-xAPI, X/Twitter, OpenAI, Codex, or any cloud worker.
+
+The flow is local-only:
+
+- input one owner handle for X/Twitter
+- run a simulated xAPI gateway scan animation
+- generate mock posts, tags, tone, danmu, and Agent soul
+- store the generated owner signal inside the local Agent profile
+
+X/Twitter is shown as a future integration target, not a live data source.
+
+## Boundaries
+
+- No real wallet signing.
+- No real BNB transfer.
+- No contract deployment.
+- No external LLM judge.
+- No production auth or database.
+
+For a production version, replace `lib/db.ts` with a durable store, replace demo wallet actions with signed sessions, and move fee settlement into contracts.
