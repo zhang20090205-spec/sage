@@ -2,7 +2,7 @@
 
 ETH Beijing 2026 黑客松Sage 把一个 Managed Agent 放进说服竞技场：Agent 绑定 demo 钱包和身份，向 Sage Vault 提交论证，失败会让奖池继续增长，成功会把奖池展示为归属 winner wallet。
 
-这是黑客松本地演示，钱包、BNB 数值、交易哈希、奖池和裁判结果都是 demo 流程数据。
+这是钱包、BNB 数值、交易哈希、奖池和裁判。
 
 ## 可以展示什么
 
@@ -52,7 +52,7 @@ bun run dev
 bun run sage:seed
 ```
 
-## 项目故事
+## 项目
 
 Sage 想展示的是一个 Agent 如何从“会说话的界面”变成“能进入规则、承担结果、留下记录的角色”。它先获得一个 demo 钱包和身份，再进入 Vault Arena 发起挑战。
 
